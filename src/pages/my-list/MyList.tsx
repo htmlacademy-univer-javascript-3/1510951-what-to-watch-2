@@ -1,7 +1,7 @@
-import Footer from "../../components/footer/Footer"
+import Footer from '../../components/footer/Footer';
 
 const MyList = ():JSX.Element => (
-    <div className="user-page">
+  <div className="user-page">
     <header className="page-header user-page__head">
       <div className="logo">
         <a href="main.html" className="logo__link">
@@ -113,8 +113,8 @@ const MyList = ():JSX.Element => (
       </div>
     </section>
 
-   <Footer />
+    <Footer />
   </div>
-)
+);
 
 export default MyList;

@@ -8,10 +8,10 @@ export type IFilmPreview = {
   genre: string;
 }
 export const dataForPreviewFilm: IFilmPreview = {
-  title: "The Grand Budapest Hotel",
+  title: 'The Grand Budapest Hotel',
   date: 2014,
-  genre: "Drama"
-}
+  genre: 'Drama'
+};
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
