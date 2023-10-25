@@ -1,12 +1,12 @@
 import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
+import { IFilmPreview } from "../..";
 
 type IFilm = {
     src: string;
     alt: string;
     filmName: string;
 }
-const dataForCardFilm: IFilm[] = [
+const dataForCardFilms: IFilm[] = [
   {
       src: "img/fantastic-beasts-the-crimes-of-grindelwald.jpg",
       alt:"Fantastic Beasts: The Crimes of Grindelwald",
@@ -111,14 +111,34 @@ const dataForCardFilm: IFilm[] = [
 
 
 
-const Main: React.FC = (): JSX.Element => (
+const Main = ({title, genre, date}: IFilmPreview): JSX.Element => (
     <>
       <section className="film-card">
           <div className="film-card__bg">
             <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
           </div>
           <h1 className="visually-hidden">WTW</h1>
-          <Header />
+          <header className="page-header film-card__head">
+            <div className="logo">
+                <a className="logo__link">
+                    <span className="logo__letter logo__letter--1">W</span>
+                    <span className="logo__letter logo__letter--2">T</span>
+                    <span className="logo__letter logo__letter--3">W</span>
+                </a>
+            </div>
+            <ul className="user-block">
+                <li className="user-block__item">
+                    <div className="user-block__avatar">
+                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                    </div>
+                </li>
+                <li className="user-block__item">
+                    <a className="user-block__link">Sign out</a>
+                </li>
+            </ul>
+            
+          </header>
+        
         
           <div className="film-card__wrap">
             <div className="film-card__info">
@@ -127,10 +147,10 @@ const Main: React.FC = (): JSX.Element => (
               </div>
     
               <div className="film-card__desc">
-                <h2 className="film-card__title"></h2>
+                <h2 className="film-card__title">{title}</h2>
                 <p className="film-card__meta">
-                  <span className="film-card__genre"></span>
-                  <span className="film-card__year"></span>
+                  <span className="film-card__genre">{genre}</span>
+                  <span className="film-card__year">{date}</span>
                 </p>
     
                 <div className="film-card__buttons">
@@ -192,7 +212,7 @@ const Main: React.FC = (): JSX.Element => (
 
           <div className="catalog__films-list">
           {
-            dataForCardFilm.map((filmData) => 
+            dataForCardFilms.map((filmData) => 
                 <article className="small-film-card catalog__films-card" key={filmData.filmName}>
                 <div className="small-film-card__image">
                   <img src={filmData.src} alt={filmData.alt} width="280" height="175" />

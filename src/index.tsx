@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/App';
 
-type IFilmPreview = {
+export type IFilmPreview = {
   title: string;
   date: number;
   genre: string;
 }
-const dataForPreviewFilm: IFilmPreview = {
+export const dataForPreviewFilm: IFilmPreview = {
   title: "The Grand Budapest Hotel",
   date: 2014,
   genre: "Drama"
