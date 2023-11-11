@@ -1,10 +1,10 @@
-type ICard = {
+type CardProps = {
   src: string;
   alt: string;
   filmName: string;
 }
-// ICard: {src: string, alt:string, filmName:string}
-const Card: React.FC<ICard> = ({src, alt, filmName}: ICard): JSX.Element => (
+
+const Card: React.FC<CardProps> = ({src, alt, filmName}: CardProps) => (
   <article className="small-film-card catalog__films-card">
     <div className="small-film-card__image">
       <img src={src} alt={alt} width="280" height="175" />
