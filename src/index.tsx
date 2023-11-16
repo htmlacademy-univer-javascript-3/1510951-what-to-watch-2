@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './app/App';
+import App from './components/app/app';
 
-export type IFilmPreview = {
-  title: string;
-  date: number;
-  genre: string;
-}
-export const dataForPreviewFilm: IFilmPreview = {
-  title: 'The Grand Budapest Hotel',
-  date: 2014,
-  genre: 'Drama'
+const initialProps = {
+  filmName: 'The Grand Budapest Hotel',
+  genre: 'Drama',
+  releaseDate: '2014',
 };
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
   <React.StrictMode>
-    <App />
+    <App
+      filmName={initialProps.filmName}
+      genre={initialProps.genre}
+      releaseDate={initialProps.releaseDate}
+    />
   </React.StrictMode>
 );
