@@ -2,21 +2,20 @@ import React from 'react';
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/film-card/film-card';
 import Catalog from '../../components/catalog/catalog';
+import { FilmInfoProps } from '../../types/film-types';
 
 type MainProps = {
-  filmName: string;
-  genre: string;
-  releaseDate: string;
+    films: FilmInfoProps[];
 };
 
-export default function MainPage(props: MainProps): React.JSX.Element {
-  return (
-    <>
-      <FilmCard {...props} />
-      <div className="page-content">
-        <Catalog />
-        <Footer />
-      </div>
-    </>
-  );
+export default function MainPage({ films }: MainProps): React.JSX.Element {
+    return (
+        <>
+            <FilmCard film={films[0]} />
+            <div className="page-content">
+                <Catalog films={films} />
+                <Footer />
+            </div>
+        </>
+    );
 }

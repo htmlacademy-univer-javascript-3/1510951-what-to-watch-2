@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../enums/AppRoute';
 
 export default function PageNotFound(): React.JSX.Element {
-  return (
-    <>
-      <h1>Ошибка 404</h1>
-      <h2>Такой страницы не существует</h2>
-      <Link to="/">Вернуться на главную</Link>
-    </>
-  );
+    return (
+        <>
+            <h1>Ошибка 404. Страница не найдена.</h1>
+            <Link to={AppRoute.Main}>Вернуться на главную</Link>
+        </>
+    );
 }
