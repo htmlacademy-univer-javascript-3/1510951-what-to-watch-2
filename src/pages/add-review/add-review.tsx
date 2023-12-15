@@ -9,6 +9,7 @@ import { AppRoute } from '../../enums/AppRoute';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import {fetchFilmById} from '../../store/api-actions.ts';
+
 export default function AddReview(): React.JSX.Element {
   const { id = '' } = useParams();
 
@@ -70,7 +71,7 @@ export default function AddReview(): React.JSX.Element {
           alt={film.name}
         />
       </div>
-      <AddReviewForm onSubmit={() => console.log('!!!!!')} />
+      <AddReviewForm filmId={film.id} />
     </section>
   );
 }
