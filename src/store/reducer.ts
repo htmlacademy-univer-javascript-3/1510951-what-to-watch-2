@@ -1,17 +1,19 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {ALL_GENRES} from '../consts/genres.ts';
 import {
-  getFilmsByGenre,
+  getFilmsByGenre, loadFavorites, loadFilmReviews,
   loadFilms,
   setActiveGenre,
   setAuthStatus,
   setCurrentFilm,
   setIsLoadingFilm,
   setIsLoadingList,
-  setPromoFilm
+  setPromoFilm, setSimilarFilms
 } from './action.ts';
 import {FilmInfoProps, FilmPromo, FilmProps} from '../types/film-types.ts';
 import {AuthorizationStatus} from '../enums/AuthorizationStatus.ts';
+import {ReviewProps} from '../types/review-types.ts';
+
 type initialState = {
   films: FilmProps[];
   activeGenre: string | typeof ALL_GENRES;
@@ -21,6 +23,9 @@ type initialState = {
   isLoadingList: boolean;
   isLoadingFilm: boolean;
   authorizationStatus: AuthorizationStatus;
+  favoriteFilms: FilmProps[];
+  reviews: ReviewProps[];
+  similarFilms: FilmProps[];
 }
 
 const initialState: initialState = {
@@ -32,6 +37,9 @@ const initialState: initialState = {
   isLoadingList: true,
   isLoadingFilm: true,
   authorizationStatus: AuthorizationStatus.Unknown,
+  favoriteFilms: [],
+  reviews: [],
+  similarFilms: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -50,18 +58,18 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;
     })
+    .addCase(loadFavorites, (state, action) => {
+      state.favoriteFilms = action.payload;
+    })
     .addCase(setPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
     })
     .addCase(setCurrentFilm, (state, action) => {
       state.currentFilm = action.payload;
     })
-    // .addCase(loadFilmReviews, (state, action) => {
-    //   state.currentFilm = {
-    //     ...state.currentFilm,
-    //     reviews: action.payload || [],
-    //   };
-    // })
+    .addCase(loadFilmReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
     .addCase(setIsLoadingList, (state, action) => {
       state.isLoadingList = action.payload;
     })
@@ -70,5 +78,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setSimilarFilms, (state, action) => {
+      state.similarFilms = action.payload;
     });
 });
