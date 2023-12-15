@@ -3,7 +3,6 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {loginUser} from '../../store/api-actions.ts';
 import {useAppDispatch} from '../../hooks/store.ts';
-
 export default function SignIn(): React.JSX.Element {
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
