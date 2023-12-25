@@ -7,19 +7,34 @@ import FilmsList from '../../components/films-list/films-list';
 import { AppRoute } from '../../enums/AppRoute';
 import Tabs from '../../components/tabs/tabs.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { fetchFilmById } from '../../store/api-actions.ts';
+import {
+  fetchFilmById,
+  fetchFilmReviews,
+  fetchSimilarFilms,
+} from '../../store/api-actions.ts';
 import { Spinner } from '../../components/spinner/spinner';
+import { AuthorizationStatus } from '../../enums/AuthorizationStatus.ts';
+
+import { getAuthStatus } from '../../store/user-process/user-process.selector.ts';
+import {
+  getFilms,
+  getIsLoadingList,
+} from '../../store/film-process/film-process.selector.ts';
 
 export default function MoviePage(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
-  const film = useAppSelector((state) => state.currentFilm);
-  const isLoading = useAppSelector((state) => state.isLoadingFilm);
+  const film = useAppSelector(getFilms);
+  const isLoading = useAppSelector(getIsLoadingList);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isAuth = authStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
     if (id) {
       dispatch(fetchFilmById(id));
+      dispatch(fetchSimilarFilms(id));
+      dispatch(fetchFilmReviews(id));
     }
   }, [id, dispatch]);
 
@@ -64,19 +79,17 @@ export default function MoviePage(): React.JSX.Element {
                   <svg viewBox="0 0 19 20" width={19} height={20}>
                     <use xlinkHref="#add" />
                   </svg>
-                  {/* Для дальнейшей разработки
-                  <svg viewBox="0 0 18 14" width={18} height={14}>
-                    <use xlinkHref="#in-list" />
-                  </svg> */}
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link
-                  to={`${AppRoute.Films}/${film.id}${AppRoute.Review}`}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {isAuth && (
+                  <Link
+                    to={`${AppRoute.Films}/${film.id}${AppRoute.Review}`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -91,7 +104,7 @@ export default function MoviePage(): React.JSX.Element {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmsList length={4} genre={film.genre} />
+          <FilmsList length={4} />
         </section>
         <Footer />
       </div>
