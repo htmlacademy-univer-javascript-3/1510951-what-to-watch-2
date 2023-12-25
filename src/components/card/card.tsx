@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import './card.css';
-import {FilmProps} from '../../types/film-types';
+import { FilmProps } from '../../types/film-types';
 import { AppRoute } from '../../enums/AppRoute';
 import VideoPlayer from '../videoplayer/videoplayer';
 import { useCallback } from 'react';
+import React from 'react';
 
 type CardProps = {
   film: FilmProps;
@@ -13,13 +14,13 @@ type CardProps = {
   onMouseLeave: () => void;
 };
 
-export default function Card({
-                               film,
-                               isActive,
-                               isMuted = true,
-                               onMouseEnter,
-                               onMouseLeave,
-                             }: CardProps): React.JSX.Element {
+function Card({
+                film,
+                isActive,
+                isMuted = true,
+                onMouseEnter,
+                onMouseLeave,
+              }: CardProps): React.JSX.Element {
   const { name, previewImage, alt, id, previewVideoLink } = film;
 
   const handleMouseEnter = useCallback(() => {
@@ -52,3 +53,7 @@ export default function Card({
     </article>
   );
 }
+
+const CardMemo = React.memo(Card);
+
+export default CardMemo;

@@ -3,12 +3,13 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../../enums/AppRoute';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { fetchFilmById } from '../../store/api-actions';
+import { getFilms } from '../../store/film-process/film-process.selector';
 
 export default function Player(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
-  const film = useAppSelector((state) => state.currentFilm);
+  const film = useAppSelector(getFilms);
 
   useEffect(() => {
     if (id) {
@@ -50,11 +51,6 @@ export default function Player(): React.JSX.Element {
               <use xlinkHref="#play-s" />
             </svg>
             <span>Play</span>
-            {/* Для дальнейшей разработки плеера
-            <svg viewBox="0 0 14 21" width={14} height={21}>
-              <use xlinkHref="#pause" />
-            </svg>
-            <span>Pause</span> */}
           </button>
           <div className="player__name">Transpotting</div>
           <button type="button" className="player__full-screen">
