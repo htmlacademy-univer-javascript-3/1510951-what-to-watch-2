@@ -6,6 +6,9 @@ import {AddUserReview, ReviewProps, UserReview} from '../types/review-types.ts';
 import {AuthData, UserData} from '../types/auth.ts';
 import { AppRoute } from '../enums/AppRoute.ts';
 import { redirectToRoute } from './action.ts';
+import { FavoriteStatus } from '../enums/FavoriteStatus.ts';
+import { setAuthStatus } from './user-process/user-process.slice.ts';
+import { AuthorizationStatus } from '../enums/AuthorizationStatus.ts';
 
 export const fetchFilms = createAsyncThunk<FilmProps[], undefined, {
   dispatch: AppDispatch;
@@ -68,6 +71,20 @@ export const fetchFavorite = createAsyncThunk<
   }
 );
 
+export const changeFavoriteStatus = createAsyncThunk<
+  void,
+  {filmId: string; status: FavoriteStatus},
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+  'favorite/status',
+  async ({filmId, status}, { extra: api}) => {
+    await api.post(`/favorite/${filmId}/${status}`);
+  },
+);
+
 export const fetchFilmPromo = createAsyncThunk<
   FilmPromo,
   undefined,
@@ -112,7 +129,13 @@ export const checkAuthStatus = createAsyncThunk<
 >(
   '/login',
   async (_arg, { extra: api}) => {
-    await api.get('/login');
+    try {
+
+      await api.get('/login');
+      setAuthStatus(AuthorizationStatus.Auth);
+    } catch (e) {
+      setAuthStatus(AuthorizationStatus.NoAuth);
+    }
   },
 );
 

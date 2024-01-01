@@ -18,6 +18,8 @@ export default function SignIn(): React.JSX.Element {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setError('');
+
     if (emailRef.current !== null && passwordRef.current !== null) {
       if (!EMAIL_PATTERN.test(emailRef.current?.value)) {
         setError('Please enter a valid email address');
@@ -53,13 +55,6 @@ export default function SignIn(): React.JSX.Element {
               <p>{error}</p>
             </div>
           )}
-          {/* Для дальнейшей разработки страницы
-          <div className="sign-in__message">
-            <p>
-              We can’t recognize this email <br /> and password combination.
-              Please try again.
-            </p>
-          </div>*/}
           <div className="sign-in__fields">
             <div
               className={`sign-in__field ${
