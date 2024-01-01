@@ -1,10 +1,8 @@
 import {State} from '../../types/state.ts';
 import {NameSpace} from '../../consts/name-space.ts';
-import {FilmPromo, FilmProps} from '../../types/film-types.ts';
+import {FilmInfoProps} from '../../types/film-types.ts';
+import { ReviewProps } from '../../types/review-types.ts';
 
-export const getFilms = (state: State): FilmProps[] => state[NameSpace.Films].films;
-export const getFilmsByGenre = (state: State): FilmProps[] => state[NameSpace.Films].genreFilms;
-export const getFilmsByGenreLength = (state: State): number => state[NameSpace.Films].genreFilms.length;
-export const getIsLoadingList = (state: State): boolean => state[NameSpace.Films].isLoadingList;
-export const getActiveGenre = (state: State): string => state[NameSpace.Films].activeGenre;
-export const getPromoFilm = (state: State): FilmPromo | null => state[NameSpace.Films].promoFilm;
+export const getFilm = (state: Pick<State, NameSpace.Film>): FilmInfoProps | null => state[NameSpace.Film].currentFilm;
+export const getIsLoadingFilm = (state: Pick<State, NameSpace.Film>): boolean => state[NameSpace.Film].isLoadingFilm;
+export const getReviews = (state: Pick<State, NameSpace.Film>): ReviewProps[] => state[NameSpace.Film].reviews;
