@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import FilmCardPoster from '../../components/film-card-poster/film-card-poster';
@@ -19,16 +19,25 @@ import { getAuthStatus } from '../../store/user-process/user-process.selector.ts
 import {
   getFilms,
   getIsLoadingList,
+  getReviews,
 } from '../../store/film-process/film-process.selector.ts';
+import FilmCardButtons from '../../components/film-card-buttons/film-card-buttons.tsx';
+import PageNotFound from '../page-not-found/page-not-found.tsx';
+import { getFavoriteFilms } from '../../store/film-process/film-process.selector.ts';
 
 export default function MoviePage(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
   const film = useAppSelector(getFilms);
+  const reviews = useAppSelector(getReviews);
   const isLoading = useAppSelector(getIsLoadingList);
   const authStatus = useAppSelector(getAuthStatus);
   const isAuth = authStatus === AuthorizationStatus.Auth;
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const isFavorite = favoriteFilms?.find(
+    (favorite) => String(favorite.id) === String(film?.id)
+  );
 
   useEffect(() => {
     if (id) {
@@ -38,20 +47,23 @@ export default function MoviePage(): React.JSX.Element {
     }
   }, [id, dispatch]);
 
-  if (isLoading && !film) {
-    return <Spinner />;
+  if (isLoading) {
+    return <Spinner size="large" />;
   }
 
-  if (!film) {
+  if (!id) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  return (
+  return film ? (
     <>
-      <section className="film-card film-card--full">
+      <section
+        className="film-card film-card--full"
+        style={{ backgroundColor: film.backgroundColor }}
+      >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.posterImage} alt={film.name} />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
           <h1 className="visually-hidden">WTW</h1>
           <Header />
@@ -62,42 +74,19 @@ export default function MoviePage(): React.JSX.Element {
                 <span className="film-card__genre">{film.genre}</span>
                 <span className="film-card__year">{film.released}</span>
               </p>
-              <div className="film-card__buttons">
-                <button
-                  className="btn btn--play film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 19" width={19} height={19}>
-                    <use xlinkHref="#play-s" />
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use xlinkHref="#add" />
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-                {isAuth && (
-                  <Link
-                    to={`${AppRoute.Films}/${film.id}${AppRoute.Review}`}
-                    className="btn film-card__button"
-                  >
-                    Add review
-                  </Link>
-                )}
-              </div>
+              <FilmCardButtons
+                isAuth={isAuth}
+                id={film.id}
+                isFavorite={Boolean(isFavorite)}
+                isReviewButtonVisible
+              />
             </div>
           </div>
         </div>
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
-            <FilmCardPoster src={film.backgroundImage} alt={film.name} />
-            <Tabs film={film} />
+            <FilmCardPoster src={film.posterImage} alt={film.name} />
+            <Tabs film={film} reviews={reviews} />
           </div>
         </div>
       </section>
@@ -109,5 +98,7 @@ export default function MoviePage(): React.JSX.Element {
         <Footer />
       </div>
     </>
+  ) : (
+    <PageNotFound />
   );
 }
