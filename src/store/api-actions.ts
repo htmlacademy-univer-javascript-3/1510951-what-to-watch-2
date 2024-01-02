@@ -2,10 +2,21 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
 import {FilmInfoProps, FilmPromo, FilmProps} from '../types/film-types.ts';
+// import {redirectToRoute,
+//   // setActiveGenre,
+// } from './action.ts';
+// import {ALL_GENRES} from '../consts/genres.ts';
 import {AddUserReview, ReviewProps, UserReview} from '../types/review-types.ts';
-import {AuthData, UserData} from '../types/auth.ts';
+// import {AuthorizationStatus} from '../enums/AuthorizationStatus.ts';
+import {AuthData, CheckUserData, UserData} from '../types/auth.ts';
 import { AppRoute } from '../enums/AppRoute.ts';
+// import { setToken } from '../services/token.ts';
 import { redirectToRoute } from './action.ts';
+import { FavoriteStatus } from '../enums/FavoriteStatus.ts';
+// import { setAuthStatus } from './user-process/user-process.slice.ts';
+// import { AuthorizationStatus } from '../enums/AuthorizationStatus.ts';
+// import {AppRoute} from '../enums/AppRoute.ts';
+// import {removeToken, setToken} from '../services/token.ts';
 
 export const fetchFilms = createAsyncThunk<FilmProps[], undefined, {
   dispatch: AppDispatch;
@@ -21,16 +32,15 @@ export const fetchFilms = createAsyncThunk<FilmProps[], undefined, {
 );
 
 export const fetchFilmById = createAsyncThunk<
-  FilmInfoProps,
+FilmInfoProps,
   string,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
-  }>(
+}>(
   '/films/id',
   async (id: string, {extra: api}) => {
-
     const { data } = await api.get<FilmInfoProps>(`/films/${id}`);
     return data;
   },
@@ -44,13 +54,13 @@ export const fetchSimilarFilms = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }>(
-  '/films/id/similar',
-  async (id: string, { extra: api}) => {
-    const { data } = await api.get<FilmProps[]>(`/films/${id}/similar`);
+    '/films/id/similar',
+    async (id: string, { extra: api}) => {
+      const { data } = await api.get<FilmProps[]>(`/films/${id}/similar`);
 
-    return data;
-  },
-);
+      return data;
+    },
+  );
 
 export const fetchFavorite = createAsyncThunk<
   FilmProps[],
@@ -60,13 +70,27 @@ export const fetchFavorite = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }>(
-  '/favorite',
-  async (_arg, { extra: api}) => {
-    const {data} = await api.get<FilmProps[]>('/favorite');
+    '/favorite',
+    async (_arg, { extra: api}) => {
+      const {data} = await api.get<FilmProps[]>('/favorite');
 
-    return data;
-  }
-);
+      return data;
+    }
+  );
+
+export const changeFavoriteStatus = createAsyncThunk<
+  void,
+  {filmId: string; status: FavoriteStatus},
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'favorite/status',
+    async ({filmId, status}, { extra: api}) => {
+      await api.post(`/favorite/${filmId}/${status}`);
+    },
+  );
 
 export const fetchFilmPromo = createAsyncThunk<
   FilmPromo,
@@ -76,13 +100,13 @@ export const fetchFilmPromo = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }>(
-  '/promo',
-  async (_arg, { extra: api}) => {
-    const { data } = await api.get<FilmPromo>('/promo');
+    '/promo',
+    async (_arg, { extra: api}) => {
+      const { data } = await api.get<FilmPromo>('/promo');
 
-    return data;
-  },
-);
+      return data;
+    },
+  );
 
 export const fetchFilmReviews = createAsyncThunk<
   ReviewProps[],
@@ -91,7 +115,7 @@ export const fetchFilmReviews = createAsyncThunk<
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
-  }>(
+}>(
   '/comments/id',
   async (id, { extra: api}) => {
 
@@ -102,19 +126,47 @@ export const fetchFilmReviews = createAsyncThunk<
 );
 
 export const checkAuthStatus = createAsyncThunk<
-  void,
+  CheckUserData,
   undefined,
   {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
   }
->(
-  '/login',
-  async (_arg, { extra: api}) => {
-    await api.get('/login');
-  },
-);
+  >(
+    '/login',
+    async (_arg, { extra: api}) => {
+      // try {
+
+      const {data} = await api.get<CheckUserData>('/login');
+      // setAuthStatus(AuthorizationStatus.Auth);
+      return data;
+      // } catch (e) {
+      //   setAuthStatus(AuthorizationStatus.NoAuth);
+      // }
+    },
+  );
+
+// export const checkAuthStatus = createAsyncThunk<
+//   void,
+//   undefined,
+//   {
+//   dispatch: AppDispatch;
+//   state: State;
+//   extra: AxiosInstance;
+//   }
+//   >(
+//     '/login',
+//     async (_arg, { extra: api}) => {
+//       try {
+
+//         await api.get('/login');
+//         setAuthStatus(AuthorizationStatus.Auth);
+//       } catch (e) {
+//         setAuthStatus(AuthorizationStatus.NoAuth);
+//       }
+//     },
+//   );
 
 export const loginUser = createAsyncThunk<
   UserData,

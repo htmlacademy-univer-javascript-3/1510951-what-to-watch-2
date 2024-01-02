@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainPage from '../../pages/main/main';
+import MainPage from '../../pages/main/main.tsx';
 import MyList from '../../pages/my-list/my-list';
-import PageNotFound from '../../pages/page-not-found/page-not-found';
-import AddReview from '../../pages/add-review/add-review';
+import Page404 from '../../pages/page-404/page404.tsx';
+import AddReview from '../../pages/add-review/add-review.tsx';
 import SignIn from '../../pages/sign-in/sign-in';
-import MoviePage from '../../pages/movie-page/movie-page';
+import Films from '../../pages/films/films.tsx';
 import Player from '../../pages/player/player';
 import { AppRoute } from '../../enums/AppRoute';
 import PrivateRoute from '../private-route/private-route';
@@ -30,7 +30,7 @@ export default function App(): React.JSX.Element {
             }
           />
           <Route path={AppRoute.Films}>
-            <Route path=":id" element={<MoviePage />} />
+            <Route path=":id" element={<Films />} />
             <Route
               path={`:id${AppRoute.Review}`}
               element={
@@ -42,7 +42,7 @@ export default function App(): React.JSX.Element {
           </Route>
           <Route path={`${AppRoute.Player}/:id`} element={<Player />} />
         </Route>
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </HistoryRouter>
   );

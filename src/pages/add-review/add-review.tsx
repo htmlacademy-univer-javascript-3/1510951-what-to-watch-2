@@ -10,16 +10,16 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { fetchFilmById } from '../../store/api-actions.ts';
 import {
-  getFilms,
-  getIsLoadingList,
+  getFilm,
+  getIsLoadingFilm,
 } from '../../store/film-process/film-process.selector.ts';
 
 export default function AddReview(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
-  const film = useAppSelector(getFilms);
-  const isLoading = useAppSelector(getIsLoadingList);
+  const film = useAppSelector(getFilm);
+  const isLoading = useAppSelector(getIsLoadingFilm);
 
   useEffect(() => {
     if (id) {
@@ -66,11 +66,7 @@ export default function AddReview(): React.JSX.Element {
           </nav>
           <UserBlock />
         </header>
-        <FilmCardPoster
-          size={'small'}
-          src={film.backgroundImage}
-          alt={film.name}
-        />
+        <FilmCardPoster size={'small'} src={film.posterImage} alt={film.name} />
       </div>
       <AddReviewForm filmId={film.id} />
     </section>

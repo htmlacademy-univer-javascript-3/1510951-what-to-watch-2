@@ -1,13 +1,13 @@
-import {store} from '../store/index.js';
+import {store} from '../store';
 import {AuthorizationStatus} from '../enums/AuthorizationStatus.ts';
-import {UserData} from './auth.ts';
+import {CheckUserData, UserData} from './auth.ts';
 import {ReviewProps} from './review-types.ts';
 import {FilmInfoProps, FilmPromo, FilmProps} from './film-types.ts';
 import {ALL_GENRES} from '../consts/genres.ts';
 
 export type UserProcessState = {
   authorizationStatus: AuthorizationStatus;
-  user: UserData | null;
+  user: UserData | CheckUserData | null;
 }
 
 export type FilmsProcessState = {
@@ -27,5 +27,4 @@ export type FilmProcessState = {
 }
 
 export type State = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;

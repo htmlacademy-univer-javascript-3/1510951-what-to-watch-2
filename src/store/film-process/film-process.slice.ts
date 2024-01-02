@@ -1,65 +1,56 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../consts/name-space.ts';
 import {
-  fetchFavorite,
-  fetchFilmPromo,
-  fetchFilms,
+  fetchFilmById,
+  fetchFilmReviews,
+  fetchSimilarFilms
 } from '../api-actions.ts';
-import {ALL_GENRES} from '../../consts/genres.ts';
-import {FilmsProcessState} from '../../types/state.ts';
+import {FilmProcessState} from '../../types/state.ts';
 
-const initialState: FilmsProcessState = {
-  films: [],
-  activeGenre: ALL_GENRES,
-  genreFilms: [],
-  promoFilm: null,
-  isLoadingList: true,
-  favoriteFilms: [],
+const initialState: FilmProcessState = {
+  currentFilm: null,
+  isLoadingFilm: true,
+  similarFilms: [],
+  reviews: [],
 };
 
-export const filmsReducer = createSlice({
-  name: NameSpace.Films,
+export const filmReducer = createSlice({
+  name: NameSpace.Film,
   initialState,
   reducers: {
-    setFilmsByGenre: (state) => {
-      state.genreFilms =
-        state.activeGenre === ALL_GENRES
-          ? state.films
-          : state.films.filter((film) => film.genre === state.activeGenre);
-    },
-    setActiveGenre: (state, action) => {
-      state.activeGenre = String(action.payload);
+    resetFilmDependencies: (state) => {
+      state.currentFilm = null;
+      state.similarFilms = [];
+      state.reviews = [];
+      state.isLoadingFilm = false;
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFilms.pending, (state) => {
-        state.isLoadingList = true;
+      .addCase(fetchFilmById.pending, (state) => {
+        state.isLoadingFilm = true;
       })
-      .addCase(fetchFilms.fulfilled, (state, action) => {
-        state.films = action.payload;
-        state.genreFilms = state.films;
-        state.isLoadingList = false;
+      .addCase(fetchFilmById.fulfilled, (state, action) => {
+        state.currentFilm = action.payload;
+        state.isLoadingFilm = false;
       })
-      .addCase(fetchFilms.rejected, (state)=> {
-        state.films = [];
-        state.isLoadingList = true;
+      .addCase(fetchFilmById.rejected, (state) => {
+        state.currentFilm = null;
+        state.isLoadingFilm = false;
       })
-
-      .addCase(fetchFavorite.fulfilled, (state, action) => {
-        state.favoriteFilms = action.payload;
+      .addCase(fetchSimilarFilms.fulfilled, (state, action) => {
+        state.similarFilms = action.payload;
       })
-      .addCase(fetchFavorite.rejected, (state) => {
-        state.favoriteFilms = [];
+      .addCase(fetchSimilarFilms.rejected, (state) => {
+        state.similarFilms = [];
       })
-
-      .addCase(fetchFilmPromo.fulfilled, (state, action) => {
-        state.promoFilm = action.payload;
+      .addCase(fetchFilmReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload;
       })
-      .addCase(fetchFilmPromo.rejected, (state) => {
-        state.promoFilm = null;
+      .addCase(fetchFilmReviews.rejected, (state) => {
+        state.reviews = [];
       });
   }
 });
 
-export const {setFilmsByGenre, setActiveGenre} = filmsReducer.actions;
+export const {resetFilmDependencies} = filmReducer.actions;

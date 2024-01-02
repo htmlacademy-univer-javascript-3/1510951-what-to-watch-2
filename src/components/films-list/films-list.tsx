@@ -7,17 +7,17 @@ import { FilmProps } from '../../types/film-types.ts';
 import {
   getFilmsByGenre,
   getIsLoadingList,
-} from '../../store/film-process/film-process.selector.ts';
+} from '../../store/films-process/films-process.selector.ts';
 
 type FilmsListProps = {
   length?: number;
-  similar?: FilmProps[];
+  films?: FilmProps[];
 };
 
 function FilmsList({
-                     length = DEFAULT_FILM_LIST_LENGTH,
-                     similar,
-                   }: FilmsListProps): React.JSX.Element {
+  length = DEFAULT_FILM_LIST_LENGTH,
+  films,
+}: FilmsListProps): React.JSX.Element {
   const [activeFilm, setActiveFilm] = useState<number | null>(null);
 
   const genreFilms = useAppSelector(getFilmsByGenre);
@@ -31,7 +31,7 @@ function FilmsList({
     setActiveFilm(null);
   };
 
-  const filteredFilms = similar || genreFilms;
+  const filteredFilms = films || genreFilms;
 
   return (
     <div className="catalog__films-list">
