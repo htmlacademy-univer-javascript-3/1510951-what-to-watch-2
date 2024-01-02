@@ -13,15 +13,11 @@ const initialState: UserProcessState = {
 export const userReducer = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {},
+  reducers: {
+
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(checkAuthStatus.fulfilled, (state) => {
-        state.authorizationStatus = AuthorizationStatus.Auth;
-      })
-      .addCase(checkAuthStatus.rejected, (state) => {
-        state.authorizationStatus = AuthorizationStatus.NoAuth;
-      })
       .addCase(logoutUser.fulfilled, (state) => {
         removeToken();
         state.user = null;
@@ -31,6 +27,17 @@ export const userReducer = createSlice({
         setToken(action.payload.token);
         state.user = action.payload;
         state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+      .addCase(checkAuthStatus.fulfilled, (state, action) => {
+        setToken(action.payload.token);
+        state.user = action.payload;
+        state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+      .addCase(checkAuthStatus.rejected, (state) => {
+        removeToken();
+        state.user = null;
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
       });
   }
 });
+
