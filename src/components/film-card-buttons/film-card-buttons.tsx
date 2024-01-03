@@ -11,8 +11,7 @@ import {
 } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { FavoriteStatus } from '../../enums/FavoriteStatus';
-import { getFavoriteFilmsCount } from '../../store/film-process/film-process.selector';
-// import { resetFilmDependencies } from '../../store/film-process/film-process.slice';
+import { getFavoriteFilmsCount } from '../../store/films-process/films-process.selector';
 
 type FilmCardButtonsProps = {
   isAuth?: boolean;
@@ -22,11 +21,11 @@ type FilmCardButtonsProps = {
 };
 
 export default function FilmCardButtons({
-                                          isAuth = false,
-                                          isFavorite = false,
-                                          id = '',
-                                          isReviewButtonVisible = false,
-                                        }: FilmCardButtonsProps): React.JSX.Element {
+  isAuth = false,
+  isFavorite = false,
+  id = '',
+  isReviewButtonVisible = false,
+}: FilmCardButtonsProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -58,14 +57,8 @@ export default function FilmCardButtons({
       dispatch(fetchSimilarFilms(params.id));
       dispatch(fetchFilmReviews(params.id));
     }
-    return () => {
-      // dispatch(resetFilmDependencies());
-    };
-  }, [params.id, dispatch, id]);
 
-  useEffect(() => {
-    dispatch(fetchFavorite());
-  }, [dispatch]);
+  }, [params.id, dispatch, id]);
 
   return (
     <div className="film-card__buttons">

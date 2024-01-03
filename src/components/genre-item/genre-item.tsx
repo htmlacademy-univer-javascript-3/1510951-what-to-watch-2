@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/store.ts';
 import {
   setActiveGenre,
   setFilmsByGenre,
-} from '../../store/film-process/film-process.slice.ts';
+} from '../../store/films-process/films-process.slice.ts';
 
 type GenreItemProps = {
   name: string;

@@ -33,3 +33,4 @@ export interface FilmInfoProps extends FilmPromo {
 export interface CurrentFilm extends FilmInfoProps {
   reviews?: ReviewProps[];
 }
+

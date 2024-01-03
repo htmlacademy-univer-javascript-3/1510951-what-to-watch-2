@@ -4,9 +4,9 @@ import { AppRoute } from '../../enums/AppRoute';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { fetchFilmById } from '../../store/api-actions';
 import {
-  getFilms,
-  getIsLoadingList,
-} from '../../store/films-process/films-process.selector';
+  getFilm,
+  getIsLoadingFilm,
+} from '../../store/film-process/film-process.selector';
 import useVideoPlayer from '../../hooks/player';
 import { Spinner } from '../../components/spinner/spinner';
 import { PADDING } from '../../consts/time';
@@ -15,8 +15,8 @@ export default function Player(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
-  const film = useAppSelector(getFilms);
-  const isLoading = useAppSelector(getIsLoadingList);
+  const film = useAppSelector(getFilm);
+  const isLoading = useAppSelector(getIsLoadingFilm);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -35,14 +35,11 @@ export default function Player(): React.JSX.Element {
   } = useVideoPlayer(videoRef, sliderRef, togglerRef);
 
   useEffect(() => {
-    if (id) {
+    if (id && id !== film?.id) {
       dispatch(fetchFilmById(id));
     }
-  }, [id, dispatch]);
+  }, [id, dispatch, film?.id]);
 
-  if (id && id !== film?.id) {
-    dispatch(fetchFilmById(id));
-  }
 
   if (isLoading) {
     return <Spinner />;

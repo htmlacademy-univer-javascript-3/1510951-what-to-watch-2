@@ -4,7 +4,7 @@ import Footer from '../../components/footer/footer';
 import UserBlock from '../../components/user-block/user-block';
 import FilmsList from '../../components/films-list/films-list';
 import { useAppSelector } from '../../hooks/store';
-import { getFavoriteFilms } from '../../store/film-process/film-process.selector';
+import { getFavoriteFilms } from '../../store/films-process/films-process.selector';
 import { AuthorizationStatus } from '../../enums/AuthorizationStatus';
 import { getAuthStatus } from '../../store/user-process/user-process.selector';
 import { useNavigate } from 'react-router-dom';

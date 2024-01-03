@@ -15,12 +15,12 @@ type CardProps = {
 };
 
 function Card({
-                film,
-                isActive,
-                isMuted = true,
-                onMouseEnter,
-                onMouseLeave,
-              }: CardProps): React.JSX.Element {
+  film,
+  isActive,
+  isMuted = true,
+  onMouseEnter,
+  onMouseLeave,
+}: CardProps): React.JSX.Element {
   const { name, previewImage, alt, id, previewVideoLink } = film;
 
   const handleMouseEnter = useCallback(() => {

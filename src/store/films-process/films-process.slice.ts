@@ -23,9 +23,9 @@ export const filmsReducer = createSlice({
   reducers: {
     setFilmsByGenre: (state) => {
       state.genreFilms =
-        state.activeGenre === ALL_GENRES
-          ? state.films
-          : state.films.filter((film) => film.genre === state.activeGenre);
+          state.activeGenre === ALL_GENRES
+            ? state.films
+            : state.films.filter((film) => film.genre === state.activeGenre);
     },
     setActiveGenre: (state, action) => {
       state.activeGenre = String(action.payload);

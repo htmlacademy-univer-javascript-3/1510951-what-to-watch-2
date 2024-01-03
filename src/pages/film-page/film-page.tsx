@@ -17,21 +17,21 @@ import { AuthorizationStatus } from '../../enums/AuthorizationStatus.ts';
 
 import { getAuthStatus } from '../../store/user-process/user-process.selector.ts';
 import {
-  getFilms,
-  getIsLoadingList,
+  getFilm,
+  getIsLoadingFilm,
   getReviews,
 } from '../../store/film-process/film-process.selector.ts';
 import FilmCardButtons from '../../components/film-card-buttons/film-card-buttons.tsx';
-import PageNotFound from '../page-not-found/page-not-found.tsx';
-import { getFavoriteFilms } from '../../store/film-process/film-process.selector.ts';
+import Page404 from '../page-404/page404.tsx';
+import { getFavoriteFilms } from '../../store/films-process/films-process.selector.ts';
 
-export default function MoviePage(): React.JSX.Element {
+export default function FilmPage(): React.JSX.Element {
   const { id = '' } = useParams();
 
   const dispatch = useAppDispatch();
-  const film = useAppSelector(getFilms);
+  const film = useAppSelector(getFilm);
   const reviews = useAppSelector(getReviews);
-  const isLoading = useAppSelector(getIsLoadingList);
+  const isLoading = useAppSelector(getIsLoadingFilm);
   const authStatus = useAppSelector(getAuthStatus);
   const isAuth = authStatus === AuthorizationStatus.Auth;
   const favoriteFilms = useAppSelector(getFavoriteFilms);
@@ -40,12 +40,12 @@ export default function MoviePage(): React.JSX.Element {
   );
 
   useEffect(() => {
-    if (id) {
+    if (id && id !== film?.id) {
       dispatch(fetchFilmById(id));
       dispatch(fetchSimilarFilms(id));
       dispatch(fetchFilmReviews(id));
     }
-  }, [id, dispatch]);
+  }, [id, dispatch, film?.id]);
 
   if (isLoading) {
     return <Spinner size="large" />;
@@ -99,6 +99,6 @@ export default function MoviePage(): React.JSX.Element {
       </div>
     </>
   ) : (
-    <PageNotFound />
+    <Page404 />
   );
 }

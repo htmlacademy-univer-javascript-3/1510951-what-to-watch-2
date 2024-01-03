@@ -60,7 +60,7 @@ const useVideoPlayer = (
     }
 
     document.addEventListener('mouseup', handleMouseUp);
-  }, [handleMouseUp, togglerPosition]);
+  }, [handleMouseUp, togglerPosition, videoRef]);
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -88,7 +88,7 @@ const useVideoPlayer = (
         togglerRef.current.style.left = `${newTogglerPosition}%`;
       }
     },
-    [isDragging]
+    [isDragging, sliderRef, togglerRef, videoRef]
   );
 
   useEffect(() => {

@@ -7,10 +7,10 @@ interface VideoPlayerProps {
   isMuted: boolean;
 }
 export default function VideoPlayer({
-                                      link,
-                                      posterImage,
-                                      isMuted,
-                                    }: VideoPlayerProps): React.JSX.Element {
+  link,
+  posterImage,
+  isMuted,
+}: VideoPlayerProps): React.JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {

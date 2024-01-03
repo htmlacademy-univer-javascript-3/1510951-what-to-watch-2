@@ -6,7 +6,7 @@ import { FilmPromo } from '../../types/film-types';
 import { AuthorizationStatus } from '../../enums/AuthorizationStatus';
 import { useAppSelector } from '../../hooks/store';
 import { getAuthStatus } from '../../store/user-process/user-process.selector';
-import { getFavoriteFilms } from '../../store/film-process/film-process.selector';
+import { getFavoriteFilms } from '../../store/films-process/films-process.selector';
 
 type FilmCardProps = {
   film: FilmPromo;
