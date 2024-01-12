@@ -7,20 +7,24 @@ import { fetchFavorite, fetchFilmPromo } from '../../store/api-actions.ts';
 import { getPromoFilm } from '../../store/films-process/films-process.selector.ts';
 import { getAuthStatus } from '../../store/user-process/user-process.selector.ts';
 import { AuthorizationStatus } from '../../enums/AuthorizationStatus.ts';
+import {remoteFavoriteFilm} from '../../store/films-process/films-process.slice.ts';
 
 export default function MainPage(): React.JSX.Element | null {
   const dispatch = useAppDispatch();
   const promoFilm = useAppSelector(getPromoFilm);
   const authStatus = useAppSelector(getAuthStatus);
-  const isAuth = authStatus === AuthorizationStatus.Auth;
+
 
   useEffect(() => {
     dispatch(fetchFilmPromo());
 
-    if (isAuth) {
+    if (authStatus === AuthorizationStatus.Auth) {
       dispatch(fetchFavorite());
+
+    } else {
+      dispatch(remoteFavoriteFilm());
     }
-  }, [dispatch, isAuth]);
+  }, [dispatch, authStatus]);
 
   if (!promoFilm) {
     return null;

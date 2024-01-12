@@ -6,13 +6,14 @@ import { store } from './store';
 import {
   fetchFilms,
   checkAuthStatus,
-
+  // fetchFavorite,
 } from './store/api-actions.ts';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchFilms());
 store.dispatch(checkAuthStatus());
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

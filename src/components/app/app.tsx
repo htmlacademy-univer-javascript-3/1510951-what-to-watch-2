@@ -14,6 +14,7 @@ import browserHistory from '../../browser-history.ts';
 import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
 
 export default function App(): React.JSX.Element {
+
   return (
     <HistoryRouter history={browserHistory}>
       <ScrollToTop />

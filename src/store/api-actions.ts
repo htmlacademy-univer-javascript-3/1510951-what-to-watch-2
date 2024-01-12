@@ -64,7 +64,6 @@ export const fetchFavorite = createAsyncThunk<
     '/favorite',
     async (_arg, { extra: api}) => {
       const {data} = await api.get<FilmProps[]>('/favorite');
-
       return data;
     }
   );
@@ -117,7 +116,7 @@ export const fetchFilmReviews = createAsyncThunk<
 );
 
 export const checkAuthStatus = createAsyncThunk<
-  CheckUserData,
+  void,
   undefined,
   {
   dispatch: AppDispatch;
@@ -125,10 +124,9 @@ export const checkAuthStatus = createAsyncThunk<
   extra: AxiosInstance;
   }
   >(
-    '/login',
+    '/user/checkAuth',
     async (_arg, { extra: api}) => {
-      const {data} = await api.get<CheckUserData>('/login');
-      return data;
+      await api.get<CheckUserData>('/login');
     },
   );
 

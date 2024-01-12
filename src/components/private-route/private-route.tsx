@@ -11,10 +11,8 @@ type PrivateRouteProps = {
 
 function PrivateRoute(props: PrivateRouteProps): React.JSX.Element {
   const { children } = props;
-
   const authStatus = useAppSelector(getAuthStatus);
   const isAuth = authStatus === AuthorizationStatus.Auth;
-
   return isAuth ? children : <Navigate to={AppRoute.Login} />;
 }
 
