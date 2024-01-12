@@ -8,6 +8,7 @@ import {ALL_GENRES} from '../consts/genres.ts';
 export type UserProcessState = {
   authorizationStatus: AuthorizationStatus;
   user: UserData | CheckUserData | null;
+  hasError: boolean;
 }
 
 export type FilmsProcessState = {

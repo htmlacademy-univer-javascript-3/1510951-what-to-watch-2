@@ -29,7 +29,6 @@ export default function FilmCardButtons({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
-
   const favoriteFilmsCount = useAppSelector(getFavoriteFilmsCount);
 
   const handleChangeFavorite = (event: FormEvent<HTMLButtonElement>) => {
@@ -37,6 +36,7 @@ export default function FilmCardButtons({
 
     if (!isAuth) {
       navigate(AppRoute.Login);
+      return;
     }
 
     dispatch(

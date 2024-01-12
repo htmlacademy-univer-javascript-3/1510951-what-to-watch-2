@@ -2,7 +2,7 @@ const AUTH_TOKEN_NAME = 'what-to-watch';
 
 export type Token = string;
 
-export const getToken = (): Token => localStorage.getItem(AUTH_TOKEN_NAME) || '';
+export const getToken = (): Token => localStorage.getItem(AUTH_TOKEN_NAME) ?? '';
 
 export const setToken = (token: Token): void => {
   localStorage.setItem(AUTH_TOKEN_NAME, token);
